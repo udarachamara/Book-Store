@@ -16,8 +16,8 @@ change DB_USERNAME = your db user name
 change DB_PASSWORD = your db password
 
 Backend project
--------------------
-# run this command
+
+run this command
 
 cd backend
 composer install
@@ -26,8 +26,8 @@ php artisan passport:install
 php artisan serve
 
 Frontend project
-------------------
-# run this command
+
+run this command
 
 cd frontend
 npm install
