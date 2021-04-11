@@ -1,0 +1,13 @@
+<div class="side-bar">
+    <div class="p-2">
+        <h5><b>Book Store</b></h5>
+    </div>
+    <div *ngIf="authService.getUser()">
+        <ul *ngIf="authService.getUser()">
+            <li *ngFor="let link of getMenu(authService.getUser())">
+                <a [routerLink]="link.route">{{ link.label }}</a>
+            </li>
+        </ul>
+    </div>
+    
+</div>

@@ -1,0 +1,30 @@
+<div class="home">
+    <div class="container">
+        <form class="search-form">
+            <div class="form-group d-flex">
+                <input type="text" class="form-control" placeholder="Search Book"/>
+                <button class="btn btn-info mx-2">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mt-4">
+        <table class="table">
+            <tr *ngFor="let book of bookList">
+                <td>
+                    <div>
+                        <img src="../../../assets/img/download.jfif" width="100"/>
+                    </div>
+                </td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.description }}</td>
+                <td>
+                    <a href="#" (click)="getAuthorBookBy(book.author)" >Author</a>
+                </td>
+                <td>
+                    <button class="btn btn-info" (click)="viewBook(book)">View</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

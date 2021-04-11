@@ -1,0 +1,13 @@
+<!-- Router outlet for Non-Autherized users -->
+<div class="row m-0" *ngIf="authService.getUser()">
+    <app-sidebar class="col-md-3 p-0"></app-sidebar>
+    <app-navbar class="col-md-9 p-0"></app-navbar>
+    <app-footer class="col-md-12 p-0"></app-footer>
+</div>
+
+<div class="row m-0" *ngIf="!authService.getUser()">
+    <app-navbar class="col-md-12 p-0"></app-navbar>
+    <app-footer class="col-md-12 p-0"></app-footer>
+</div>
+
+<ngx-ui-loader></ngx-ui-loader>

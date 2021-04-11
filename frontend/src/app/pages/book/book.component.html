@@ -1,0 +1,27 @@
+<div class="container mt-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of bookList">
+                <td>
+                    <div>
+                        <img src="../../../assets/img/download.jfif" width="100" />
+                    </div>
+                </td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.description }}</td>
+                <td>
+                    <button class="btn btn-info btn-sm mx-1" (click)="viewBook(book)">View</button>
+                    <button class="btn btn-danger btn-sm mx-1" (click)="deleteBook(book)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

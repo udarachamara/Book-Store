@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Status</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tr *ngFor="let user of userList">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <label class="badge badge-success" *ngIf="user.status == 1">Active</label>
+                <label class="badge badge-secondary" *ngIf="user.status == 0">Inactive</label>
+            </td>
+            <td>
+                <button class="btn btn-info mx-1" *ngIf="user.status == 1" (click)="inactive(user)">Inactive</button>
+                <button class="btn btn-info mx-1" *ngIf="user.status == 0" (click)="inactive(user)">Active</button>
+                <button class="btn btn-danger mx-1" (click)="delete(user)">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
