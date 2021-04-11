@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/user/login', 'api\v1\LoginController@login')->middleware('cors');
 
+Route::post('/book/search', 'api\v1\BookController@search')->middleware('cors');
+
 Route::get('/book/get_book_by/{id}', 'api\v1\BookController@show_active_book')->middleware('cors');
 
 Route::get('/book/active_authors_book', 'api\v1\BookController@show_active_authors_book')->middleware(['cors']);

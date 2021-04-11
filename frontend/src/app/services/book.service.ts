@@ -30,6 +30,10 @@ export class BookService {
     return this.httpClient.get<any>( Api.BOOK.PREFIX + Api.BOOK.BY_ACTIVE_AUTHORS)
   }
 
+  searchBook(data: any): Observable<any>{
+    return this.httpClient.post<any>(Api.BOOK.PREFIX + Api.BOOK.SEARCH_BOOK, data)
+  }
+
   insertBook(data: Book): Observable<Book>{
     return this.httpClient.post<Book>(Api.BOOK.PREFIX, data)
   }

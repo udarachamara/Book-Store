@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Book } from 'src/app/models/book';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,15 +14,24 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class HomeComponent implements OnInit {
 
   bookList: Array<Book> = []
+  searchFormGroup: FormGroup
 
   constructor(
     private authService: AuthService,
+    private fb: FormBuilder,
     private ngxService: NgxUiLoaderService,
     private bookService: BookService,
     private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.getAllBooks()
+    this.setForm()
+  }
+
+  setForm(){
+    this.searchFormGroup = this.fb.group({
+      inputCtrl: ['']
+    })
   }
 
   getAllBooks(){
@@ -44,6 +54,22 @@ export class HomeComponent implements OnInit {
 
   viewBook(book: Book){
 
+  }
+
+  search(){
+    this.ngxService.start()
+    let data = {
+      search: this.searchFormGroup.controls.inputCtrl.value
+    }
+
+    this.bookService.searchBook(data).subscribe( res => {
+      this.bookList = res.books
+      this.ngxService.stop()
+    }, error => {
+      this.notificationService.showError("Somthing Went Wrong..", "Error..!")
+      this.bookList = []
+      this.ngxService.stop()
+    })
   }
 
 }

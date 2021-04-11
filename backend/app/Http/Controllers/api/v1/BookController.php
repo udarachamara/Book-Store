@@ -43,29 +43,53 @@ class BookController extends Controller
         $user_role = Role::where('role', '=', 'Author')->first();
 
         $active_authers_books = Book::join('users', 'books.author', '=', 'users.id')
-            ->where([ ['users.status', '=', 1], ['books.status', '=', 1], ['users.role' , '=', $user_role->id] ])
-            ->select('books.*')
+            ->where([['users.status', '=', 1], ['books.status', '=', 1], ['users.role', '=', $user_role->id]])
+            ->select('books.*', 'users.name as autherName')
             ->get();
 
         if ($active_authers_books) {
             return response(['books' => $active_authers_books]);
         } else {
-        return response(['message' => "No Records Found", 'code' => 404]);
+            return response(['message' => "No Records Found", 'code' => 404]);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $booksB = Book::join('users', 'books.author', '=', 'users.id')
+            ->where('books.name', 'like', '%' . $data['search'] . '%')
+            ->where([['users.status', '=', 1], ['books.status', '=', 1], ['books.isDeleted', '=', 0]])
+            ->select('books.*', 'users.name as autherName')
+            ->get();
+
+        // If book name search is empty then search by author
+        if(sizeof($booksB) <= 0){
+            $booksA = Book::join('users', 'books.author', '=', 'users.id')
+            ->where('users.name', 'like', '%' . $data['search'] . '%')
+            ->where([['users.status', '=', 1], ['books.status', '=', 1], ['books.isDeleted', '=', 0]])
+            ->select('books.*', 'users.name as autherName')
+            ->get();
+            return response(['books' => $booksA]);
+        }else{
+            return response(['books' => $booksB]);
+        }
+        
     }
 
     public function show_books_by_author($id)
     {
 
         $books_by_author = Book::join('users', 'books.author', '=', 'users.id')
-            ->where([ ['users.status', '=', 1], ['books.status', '=', 1], ['books.isDeleted', '=', 0], ['users.id','=',$id] ])
+            ->where([['users.status', '=', 1], ['books.status', '=', 1], ['books.isDeleted', '=', 0], ['users.id', '=', $id]])
             ->select('books.*')
             ->get();
 
         if ($books_by_author) {
             return response(['books' => $books_by_author]);
         } else {
-        return response(['message' => "No Records Found", 'code' => 404]);
+            return response(['message' => "No Records Found", 'code' => 404]);
         }
     }
 
@@ -129,10 +153,10 @@ class BookController extends Controller
 
     public function show_active_book($id)
     {
-        $book = Book::where([ ['id', '=', $id], ['status', '=', 1], ['isDeleted', '=', 0] ])->first();
+        $book = Book::where([['id', '=', $id], ['status', '=', 1], ['isDeleted', '=', 0]])->first();
 
         if ($book) {
-            return response(['book' => $book, 'code'=> 200]);
+            return response(['book' => $book, 'code' => 200]);
         } else {
             return response(['message' => "No Record found", 'code' => 404]);
         }

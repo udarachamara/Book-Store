@@ -1,9 +1,9 @@
 <div class="home">
     <div class="container">
-        <form class="search-form">
+        <form [formGroup]="searchFormGroup" class="search-form">
             <div class="form-group d-flex">
-                <input type="text" class="form-control" placeholder="Search Book"/>
-                <button class="btn btn-info mx-2">Search</button>
+                <input type="text" formControlName="inputCtrl" class="form-control" placeholder="Search Book or Author"/>
+                <button class="btn btn-info mx-2" (click)="search()">Search</button>
             </div>
         </form>
     </div>
@@ -19,7 +19,7 @@
                 <td>{{ book.name }}</td>
                 <td>{{ book.description }}</td>
                 <td>
-                    <a href="#" (click)="getAuthorBookBy(book.author)" >Author</a>
+                    <a href="#" (click)="getAuthorBookBy(book.author)" >{{ book.autherName }}</a>
                 </td>
                 <td>
                     <button class="btn btn-info" (click)="viewBook(book)">View</button>
